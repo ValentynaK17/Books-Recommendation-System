@@ -7,8 +7,10 @@ import pickle
 # popular_df=pickle.load(open('Books-Recommendation-System\popular.pkl', 'rb'))
 rating_input_df=pickle.load(open('rating_input.pkl', 'rb'))
 books_df=pickle.load(open('books_df.pkl', 'rb'))
+
 #import model
 svd_default_model_mean = pickle.load(open('svd_default_model_mean.pickle', 'rb'))
+
 #################################################
 # Flask Setup
 #################################################
