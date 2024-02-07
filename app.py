@@ -7,15 +7,16 @@ import pickle
 # popular_df=pickle.load(open('Books-Recommendation-System\popular.pkl', 'rb'))
 rating_input_df=pickle.load(open('rating_input.pkl', 'rb'))
 books_df=pickle.load(open('books_df.pkl', 'rb'))
+ratings_df_all_cols=pickle.load(open('ratings_df_all_cols.pkl', 'rb'))
 
 #import model
 svd_default_model_mean = pickle.load(open('svd_default_model_mean.pickle', 'rb'))
+
 
 #################################################
 # Flask Setup
 #################################################
 app=Flask(__name__)
-
 # #################################################
 # # Flask Routes
 # #################################################
@@ -36,7 +37,6 @@ def recommend_by_book_ui():
 
 @app.route("/recommend_book", methods=['post'])
 def recommend_book():
-    
     user_book=request.form.get("user_book")
     df_books_ratigs_user=rating_input_df.pivot_table(index='Book-Title', columns='User-ID', values='Book-Rating')
     # filling n/a with 0 so far, assuming it means that no interest for a book by a user,
@@ -76,7 +76,7 @@ def recommend_user_ui():
 def recommend_user():
     user_id=int(request.form.get("user_id"))
         ## Find books prediction for a specific user and recommend top recommendations_count books
-    recommendations_count=5
+    recommendations_count=4
     model=svd_default_model_mean
     # find those titles that we consider for predictions (e.g. not read by a user)
     # find the books (titles) that were rated and presumably read by a user
@@ -106,7 +106,13 @@ def recommend_user():
     recommendations_full_info=recommendations_full_info[recommendations_full_info['Year-Of-Publication'] != 0]
     recommendations_full_info=recommendations_full_info.drop_duplicates(subset=['Book-Title'])
     data = recommendations_full_info.to_dict('records')
-    return render_template("recommend_by_book.html",data=data)
+     # find original user ratings
+    u_data=ratings_df_all_cols[ratings_df_all_cols['User-ID']==user_id].sort_values(by='Book-Rating', ascending=False)
+    u_data=u_data[['Book-Title','Book-Rating','Book-Author','Publisher']]
+    if u_data.shape[0]>10:
+        u_data=u_data.head(10)
+    user_history = u_data.to_dict('records')
+    return render_template("recommend_by_user.html", data=data, datau=user_history, user_id=user_id)
 
 @app.route('/search', methods=['GET'])
 def view_books():
