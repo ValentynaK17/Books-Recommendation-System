@@ -4,10 +4,10 @@ from flask import Flask, jsonify, render_template, request
 from sklearn.metrics.pairwise import cosine_similarity
 import pickle
 
-# popular_df=pickle.load(open('popular.pkl', 'rb'))
+popular_df=pickle.load(open('popular.pkl', 'rb'))
 rating_input_df=pickle.load(open('rating_input.pkl', 'rb'))
 books_df=pickle.load(open('books_df.pkl', 'rb'))
-# search_df=pickle.load(open('search.pkl', 'rb'))
+search_df=pickle.load(open('search.pkl', 'rb'))
 ratings_df_all_cols=pickle.load(open('ratings_df_all_cols.pkl', 'rb'))
 ratings_df_algo_input=pickle.load(open('ratings_df_algo_input.pkl', 'rb'))
 books_df_algo_input=pickle.load(open('books_df_algo_input.pkl', 'rb'))
@@ -26,12 +26,12 @@ app=Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html" #,
-                        #    book_name=list(popular_df['Book-Title'].values),
-                        #    author=list(popular_df['Book-Author'].values),
-                        #    image=list(popular_df['Image-URL-M'].values),
-                        #    ratings_count=list(popular_df['count_ratings'].values),
-                        #    rating=list(popular_df['avg_rating'].values)
+    return render_template("index.html",
+                           book_name=list(popular_df['Book-Title'].values),
+                           author=list(popular_df['Book-Author'].values),
+                           image=list(popular_df['Image-URL-M'].values),
+                           ratings_count=list(popular_df['count_ratings'].values),
+                           rating=list(popular_df['avg_rating'].values)
                            )
 
 @app.route("/recommend_book_ui")
@@ -119,16 +119,16 @@ def recommend_user():
     user_history = u_data.to_dict('records')
     return render_template("recommend_by_user.html", data=data, datau=user_history, user_id=user_id)
 
-# @app.route('/search', methods=['GET'])
-# def view_books():
-#     search_query = request.args.get('search', '')      
-#     if search_query:
-#         filtered_books_df = search_df[search_df['Book-Title'].str.contains(search_query, case=False, na=False)]
-#         books = filtered_books_df.to_dict('records')
-#     else:
-#         books = search_df.to_dict('records')
+@app.route('/search', methods=['GET'])
+def view_books():
+    search_query = request.args.get('search', '')      
+    if search_query:
+        filtered_books_df = search_df[search_df['Book-Title'].str.contains(search_query, case=False, na=False)]
+        books = filtered_books_df.to_dict('records')
+    else:
+        books = search_df.to_dict('records')
 
-#     return render_template('search.html', books=books)
+    return render_template('search.html', books=books)
 
 
 
