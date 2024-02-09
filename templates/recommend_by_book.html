@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Book Recommedation System</title>
+  <title>Book Recommendation System</title>
   <link rel="stylesheet" href="../static/css/style.css"/>     
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -15,9 +15,9 @@
 <body style="background-color: white">
 
    <!-- Grey with black text -->
-   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <nav class="navbar navbar-expand-sm navbar-inverse">
     <div class="container-fluid">
-        <span class="navbar-text"><h1>Book Recommedation System</h1></span>
+      <span class="navbar-text"><h1>Book Recommendation System</h1></span>
       <ul class="navbar-nav justify-content-center">
         <li class="nav-item" >
           <a class="nav-link" href="/">Home</a>
@@ -32,7 +32,7 @@
           <a class="nav-link" href="/search">Search Book</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://public.tableau.com/views/BookRecommendations_17072677992430/Story1?:language=en-GB&:display_count=n&:origin=viz_share_link">Data Insights</a>
+          <a class="nav-link" href="/tableau">Data Insights</a>
         </li>
       </ul>
     </div>
@@ -42,7 +42,12 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-4 offset-md-4">
-            <h1 class="text-black">Recommended Books</h1>
+            {% if book %}
+            <h1 class="text-header">Recommendations: '{{ book }}'</h1>
+      {% else %}
+      <h1 class="text-header">Recommended Books</h1>
+      {% endif %}
+
             <form action="/recommend_book", method="post">
                 <div class="input-group mb-3">
                   <input name="user_book" type="text" class="form-control input-lg" placeholder="Enter Book Title" id="inputlg"><br>

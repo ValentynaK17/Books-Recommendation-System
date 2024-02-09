@@ -26,7 +26,7 @@ app=Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html",
+    return render_template("index.html" ,
                            book_name=list(popular_df['Book-Title'].values),
                            author=list(popular_df['Book-Author'].values),
                            image=list(popular_df['Image-URL-M'].values),
@@ -69,8 +69,8 @@ def recommend_book():
             recommendations_full_info.loc[i,'Year-Of-Publication']=0
     recommendations_full_info=recommendations_full_info[recommendations_full_info['Year-Of-Publication'] != 0]
     recommendations_full_info=recommendations_full_info.drop_duplicates(subset=['Book-Title'])
-    data = recommendations_full_info.to_dict('recommendations')
-    return render_template("recommend_by_book.html",data = data)
+    data = recommendations_full_info.to_dict('records')
+    return render_template("recommend_by_book.html",data = data, book=user_book)
 
 @app.route("/recommend_user_ui")
 def recommend_user_ui():
@@ -129,6 +129,10 @@ def view_books():
         books = search_df.to_dict('records')
 
     return render_template('search.html', books=books)
+
+@app.route('/tableau')
+def view_tableau():
+    return render_template('tableau.html')
 
 
 
