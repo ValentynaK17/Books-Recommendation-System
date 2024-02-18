@@ -1,17 +1,23 @@
 # Book Recommendation System
-=======
-This README document provides an overview and step-by-step guide for building a machine learning model for our book recommendation system.
-In this project, we are building a Recommendation Engine based on User ratings of Books. This will help readers decide their next read or can be adapted for their specific use cases.
+Building of a Book Recommendation System, based on user and book interactions represented in rating scores. The system should help both:
+ - *book readers* to discover great content quickly,
+ - *businesses* with assiting in increasing sales or engagement levels on their platforms. <br>
+
+The system combines:
+ - Non-Personilized approach, suggesting brand new users Top Rated books within statistically significant subset,
+ - Memory-based approach within Colaborative filtering, with Cosine Similarity technique, when the whole dataset is used directly to find similarities between books, based on rating patterns. Having user to enter a book title, the system recommends those books with highest similarity index
+ - Model-based methods within Colaborative filtering, with SVD/SVD Funk, used for training and predictions of user rates for books. Having predictions of user rates, for recommendations sytem selects those books, which were not read by user and had highest predicted ratings.
 
 ## Overview
 This book recommendation system attempts to suggest books to users based on their preferences, past interactions, and similarities between users and books. Various machine learning techniques were used to build the system by analyzing historical user-book interaction data and deriving patterns to make personalized recommendations.
 
 In this project, we built a machine learning model to recommend books to users based on their previous reads (rating history), if applicable, or based on the most popular books in the database. We also analysed and created visualizations to show interesting insights from the data. Also, we built a web application using Flask. This will help readers decide their next read, search for books related to their reading history or what others are reading and can be adapted for other specific use cases.
 
-The project can be run using following steps:
-1. Generate the Pickle files  - Run Jupyter Notebooks to get the data in pickle files
-2. Running the Flask Application - Run the app.py file to get the data
-3. Website - The html page will by default display a Most Popular Books. There are pages to Recommend based on Book Titles, Recommend by User id , Search for a book and Data Insights
+## Installation
+1. Assuming Python and Flask are installed, run the app.py script.
+2. Access the Web Application by opening a web browser and navigating to the URL generated (e.g. http://127.0.0.1:5000).
+   
+The home page displays the Most Popular Books, however user can switch to 'Recommend by Book'/'Recommend by User' pages for personalized recommendations. 'Search Book' would help with searching for exact book titles.
 
 ### Limitations
 This engine uses a static set of data. Due to time constraints, we could not build a recommender system that can work with new data in this iteration of the project.
