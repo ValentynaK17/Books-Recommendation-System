@@ -40,7 +40,6 @@ def recommend_by_book_ui():
 
 @app.route("/recommend_book", methods=['post'])
 def recommend_book():
-    
     user_book=request.form.get("user_book")
     df_books_ratigs_user=rating_input_df.pivot_table(index='Book-Title', columns='User-ID', values='Book-Rating')
     # filling n/a with 0 so far, assuming it means that no interest for a book by a user,
@@ -70,7 +69,17 @@ def recommend_book():
     recommendations_full_info=recommendations_full_info[recommendations_full_info['Year-Of-Publication'] != 0]
     recommendations_full_info=recommendations_full_info.drop_duplicates(subset=['Book-Title'])
     data = recommendations_full_info.to_dict('records')
-    return render_template("recommend_by_book.html",data = data, book=user_book)
+    book_data=ratings_df_all_cols[ratings_df_all_cols['Book-Title']==user_book]
+    average_book_rating=0
+    count=0
+    for i in book_data['Book-Rating']:
+        if i!=0:
+            average_book_rating+=i
+            count+=1
+    if count>0: 
+        average_book_rating=round(average_book_rating/count,2)
+    else: average_book_rating=None
+    return render_template("recommend_by_book.html",data = data, book=user_book, book_d=book_data.iloc[1,:], avg_r=average_book_rating)
 
 @app.route("/recommend_user_ui")
 def recommend_user_ui():

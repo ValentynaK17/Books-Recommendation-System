@@ -1,5 +1,4 @@
-# Project Title - Book Recommendation System
-Final Project
+# Book Recommendation System
 =======
 This README document provides an overview and step-by-step guide for building a machine learning model for our book recommendation system.
 In this project, we are building a Recommendation Engine based on User ratings of Books. This will help readers decide their next read or can be adapted for their specific use cases.
@@ -74,3 +73,4 @@ Project Team:
 It has been great working and learning with you all.
 
  
+

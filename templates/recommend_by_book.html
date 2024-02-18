@@ -38,41 +38,83 @@
     </div>
   </nav>
     
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-4 offset-md-4">
-            {% if book %}
-            <h1 class="text-header">Recommendations: '{{ book }}'</h1>
-      {% else %}
-      <h1 class="text-header">Recommended Books</h1>
-      {% endif %}
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-4 offset-md-4">
+                <h1 class="text-header">Recommendations, based on Book Title</h1>
+                <form action="/recommend_book", method="post">
+                  <div class="input-group mb-3">
+                    <input name="user_book" type="text" class="form-control input-lg" placeholder="Enter Book Title" id="inputlg"><br>
+                    <div class="input-group-append">
+                      <input type="submit" class="btn btn-primary" value="Submit">
+                    </div>
+                  </div>
+              </form>
+            </div>
+          </div>
 
-            <form action="/recommend_book", method="post">
-                <div class="input-group mb-3">
-                  <input name="user_book" type="text" class="form-control input-lg" placeholder="Enter Book Title" id="inputlg"><br>
-                  <div class="input-group-append">
-                    <input type="submit" class="btn btn-primary" value="Submit">
+
+              <!-- Define column for the books -->
+              <div class="col-lg-8 col-md-12">
+                <div class="row">
+                  <div class="col-md-12">
+                    {% if book %}
+                    <h2 class="text-black-left">Recommended Books, based on a '{{ book }}' Title</h2>
+                    {% else %}
+                    <h2 class="text-black"></h2>
+                    {% endif %}
                   </div>
                 </div>
-            </form>
-          </div>
-        </div>
-         {% if data %}
-          {% for i in data %}
-              <div class="col-md-3">
-                  <div class="card">
-                      <div class="card-body">
-                              <img class="card-img-top" src="{{ i['Image-URL-M']  }}" alt="Image not available">
-                              <h2 class="text-black">{{ i['Book-Title']  }}</h2>
-                              <h4 class="text-grey">Author: {{ i['Book-Author']  }}</h4>
-                              <h4 class="text-grey">Publisher: {{ i['Publisher']  }}</h4>
-                              <h4 class="text-grey">YOP: {{ i['Year-Of-Publication']  }}</h4>
-                      </div>
-                  </div>
+                <!-- Book cards -->
+                {% if data %}
+                <div class="row">
+                  {% for i in data %}
+                  <div class="col-lg-3 col-md-4 col-sm-8">
+                            <div class="card">
+                                <div class="card-body">
+                                        <img class="card-img-top" src="{{ i['Image-URL-M']  }}" alt="Image not available">
+                                        <h2 class="text-black">{{ i['Book-Title']  }}</h2>
+                                        <h4 class="text-grey">Author: {{ i['Book-Author']  }}</h4>
+                                        <h4 class="text-grey">Publisher: {{ i['Publisher']  }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
-          {% endfor %}
-        {% endif %}
+
+              <!-- Column with Book Info table -->
+              <div class="col-lg-4 col-md-12">
+                <!-- Book Info Header -->
+                {% if book %}
+                  <h2 class="text-black-left">Details of a '{{ book }}' Title</h2>
+                {% endif %}  
+                
+      
+
+                {% if book %}
+                <table class="table">
+                  <!-- table header-->
+                  <thead>
+                    <tr>
+                      <th>Author</th>
+                      <th>Publisher</th>
+                      <th>Average Rating</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- table rows-->
+                    <tr>
+                      <td>{{book_d['Book-Author']}}</td>
+                      <td>{{book_d['Publisher']}}</td>
+                      <td>{{avg_r}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                {% endif %}
+              </div>
             </div>
         </div>
 </body>
