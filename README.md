@@ -6,25 +6,25 @@ Building of a Book Recommendation System, based on user and book interactions re
 The system combines:
  - Non-Personilized approach, suggesting brand new users Top Rated books within statistically significant subset
    <p align="center">
-   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/Non_Personilized_Recommendations.png" width=“275">
+   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/Non_Personilized_Recommendations.png">
    </p>
  - Memory-based approach within Colaborative filtering, with Cosine Similarity technique, when the whole dataset is used directly to find similarities between books, based on rating patterns. Having user to enter a book title, the system recommends those books with highest similarity index
    <p align="center">
-   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/Book_Based_Recommendation.png" width=“275">
+   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/Book_Based_Recommendation.png">
    </p>
  - Model-based methods within Colaborative filtering, with SVD/SVD Funk, used for training and predictions of user rates for books. Having predictions of user rates, for recommendations sytem selects those books, which were not read by user and had highest predicted ratings
    <p align="center">
-   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/User_Based_Recommendations.png" width=“275">
+   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/User_Based_Recommendations.png">
    </p>
 
-This book recommendation system attempts to suggest books to users based on their past interactions (leaving rating scores for books):
-|   | Book1| Book2| ...| BookN|
-|----------|----------|----------|----------|----------|
-|**User1**| 3 |   |...|8|
-|**User2**| 9 | 10|...|8|
-|...| ... | ...|...|...|
-|**UserN**| 4 | 4|...||
+This book recommendation system is trying to suggest books based on users' past interactions (left explicit rating scores for books from 1 to 10, or implicit interaction, represented in db as 0 rating score):
 
+| | Book1 | Book2 | ... | BookN |
+|:---:|:-----:|:-----:|:---:|:-----:|
+| **User1** |   3   |    N/A   | ... |   8   |
+| **User2** |   9   |   10  | ... |   0   |
+| ...      |  ...  |  ...  | ... |  ...  |
+| **UserN** |   4   |   4   | ... |    N/A   |
 
 ## Installation
 1. Assuming Python and Flask are installed, run the app.py script.
@@ -43,41 +43,51 @@ Ratings: User ID, ISBN, Book rating
 Geo Location: Country, Latitude, Longitude
 
 ### Methodology
-The project consisted of the following broad steps. Step by step processes are commented within the .ipynb file:
-1. Data Preprocessing and cleaning, e.g.
-   - convering 'Book-Ratings' as well as 'Year of Publication' to numerical fields;
-   - leaving only those records with Year of Publication' >0;
-   - handling duplicated records (e.g. use average rate per duplicated records for same userXbook ratings)
-   - encoding categorical variables
-   - splitting the data into training and testing sets.
+The project consisted of the following broad steps:
+1. Data cleaning e.g.
+   - Convering 'Book-Ratings' as well as 'Year of Publication' to numerical fields;
+   - Leaving only those records with Year of Publication' >0;
 2. Exploratory data analysis, e.g.
    - analysis of how many reviews do usually books have
    <p align="center">
-   <img src="to add" width=“275">
+   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/Binning_Books.png" width="555">
    </p>
-   - analysis of how many books do usually users rate
+   - analysis of how many books do usually users rate/interact with
    <p align="center">
-   <img src="to add" width=“275">
+   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/Binning_User.png" width="555">
    </p>
-3. Researching and experimenting on various recommendation system techniques, e.g. 
-  - training both SVD and SVD Funk models using the training dataset. To do this the data were devided into training and test sets on a per-user basis. Approximately 80% of each user's records were aassigned to the training set, while the remaining 20% reserved for the test set. This approach helps with having both the training and test sets containing data from all users.
-  - taking into account all the data, including implicit ratings VS average mean instead of implicit ratings VS excluding implicit ratings at all
-  - cross-validating the model using the Surprise module
-  - trying to optimize SVD Funk with hyperparameters tuning (number of latent factors, number of iterations, step size for the gradient descent optimization, regularization term used for all parameter to prevent overfitting)
+    - analysis of ratings distribution (rating score equal to 0 is an implicit user-book interaction data)
+   <p align="center">
+   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/Book_Rating_Values.png" width="555">
+   </p>
+3. Data Preprocessing, e.g.
+   - Handling duplicated records (e.g. use average rate per duplicated records for same userXbook ratings)
+   - Normalization of rating data by mean (center method)
+   - Splitting the data into training and testing sets.
+4. Researching and experimenting on various recommendation system techniques, e.g. 
+   - training both SVD and SVD Funk models using the training dataset. To do this the data were devided into training and test sets on a per-user basis. Approximately 80% of each user's records were aassigned to the training set, while the remaining 20% reserved for the test set. This approach helps with having both the training and test sets containing data from all users.
+   - taking into account all the data, including implicit ratings VS average mean instead of implicit ratings VS excluding implicit ratings at all
+   - cross-validating the model using the Surprise module
+   - trying to optimize SVD Funk with hyperparameters tuning (number of latent factors, number of iterations, step size for the gradient descent optimization, regularization  term used for all parameter to prevent overfitting)
     
    <p align="center">
-   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/SVD_Model_RMSE_Comparison_color.png" width=“275">
+   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/SVD_Model_RMSE_Comparison_color.png" width="555">
    </p>
+   
 For evaluation of the model RMSE metric was used (Root Mean Square Error)
+<p align="center">
+<img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/FormulaRMSE.png" width="222">
+</p>
+
+where:
+ - ***Predicted_i*** is a predicted value for the ith observation,
+ - ***Actual_i*** is an observed(actual) value for the ith observation,
+ - ***N*** is a total number of observations.
+
+Accuracy measurement for test set shows that SVD produces a little  inaccurate rating predictions, with tendency to lowering rates.  <br>
+It's observed that while a tuned SVD Funk improved results, the most accurate predictions emerged from  SVD Funk model with default hyperparameters and weighted mean instead of implicit rating data.
    <p align="center">
-   <img src="to add" width=“275">
-   </p>
-    where:
-    predicted_i is a predicted value for the ith observation and actual_i is an observed(actual) value for the ith observation. N - Total number of observations.
-    Accuracy measurement for test set shows that SVD produces a little  inaccurate rating predictions, with tendency to lowering rates. 
-We observed that while a tuned SVD Funk improved results, the most accurate predictions emerged from  SVD Funk model with default hyperparameters and weighted mean instead of implicit rating data.
-   <p align="center">
-   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/SVD_Models_RMSE_Comparison_Color_White.png" width=“275">
+   <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/SVD_Models_RMSE_Comparison_Color_White.png" width="555">
    </p>
 
 4. Building and interactive website:
@@ -97,6 +107,10 @@ Visualization - Tableau
 
 ### References
  - [Recommendation Engine Concepts](https://www.analyticsvidhya.com/blog/2018/06/comprehensive-guide-recommendation-engine-python/)
+ - [Cosine Similarity in ML](https://analyticsindiamag.com/cosine-similarity-in-machine-learning/)
+ - [Surprise module documantation](https://surprise.readthedocs.io)
+ - [Example of the process for building Recommendation System](https://rpubs.com/Argaadya/recommender-svdf)
+ - [A little of comments review for matrix factorization approach](https://stats.stackexchange.com/questions/31096/how-do-i-use-the-svd-in-collaborative-filtering)
  - [BootStrap](https://www.w3schools.com/bootstrap/bootstrap_get_started.asp)  
  - [Flask Documentation](https://flask.palletsprojects.com/en/3.0.x/)  
  - [Jinja Template](https://jinja.palletsprojects.com/en/3.1.x/)  
@@ -105,12 +119,15 @@ Visualization - Tableau
 
 ### Acknowledgements
 Project Team:
-1. Daria Z.
+1. Valentyna K.
 2. Neha S.
-3. Seeke O.D
-4. Valentyna K.
+3. Daria Z.
+4. Seeke O.D
 
 It has been great working and learning with you all.
+
+
+
 
  
 
