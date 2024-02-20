@@ -18,7 +18,6 @@ The system combines:
    </p>
 
 This book recommendation system is trying to suggest books based on users' past interactions (left explicit rating scores for books from 1 to 10, or implicit interaction, represented in db as 0 rating score):
-
 | | Book1 | Book2 | ... | BookN |
 |:---:|:-----:|:-----:|:---:|:-----:|
 | **User1** |   3   |    N/A   | ... |   8   |
@@ -64,9 +63,17 @@ The project consisted of the following broad steps:
    - Handling duplicated records (e.g. use average rate per duplicated records for same userXbook ratings)
    - Normalization of rating data by mean (center method)
    - Splitting the data into training and testing sets.
-4. Researching and experimenting on various recommendation system techniques, e.g. 
+4. Researching and experimenting on various recommendation system techniques, e.g.
+   - Starting from pure SVD approach, as shown below:
+     <p align="center">
+        <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/SVD_Approach.png" width="555">
+     </p>
+     and switching to SVD Funk, using Surprise, which is a Pyhton scikit module specifically designed for building recommender systems
    - training both SVD and SVD Funk models using the training dataset. To do this the data were devided into training and test sets on a per-user basis. Approximately 80% of each user's records were aassigned to the training set, while the remaining 20% reserved for the test set. This approach helps with having both the training and test sets containing data from all users.
-   - taking into account all the data, including implicit ratings VS average mean instead of implicit ratings VS excluding implicit ratings at all
+   - taking into account all the data, including implicit ratings VS weighted mean (shown below) instead of implicit ratings VS excluding implicit ratings at all
+     <p align="center">
+        <img src="https://github.com/ValentynaK17/Books-Recommendation-System/blob/main/Output/WeightedMean.png" width="777">
+     </p>
    - cross-validating the model using the Surprise module
    - trying to optimize SVD Funk with hyperparameters tuning (number of latent factors, number of iterations, step size for the gradient descent optimization, regularization  term used for all parameter to prevent overfitting)
     
