@@ -58,7 +58,7 @@
               <!-- Define column for the books -->
               <div class="col-lg-8 col-md-12">
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-12">
                     {% if book %}
                     <h2 class="text-black-left">Recommended Books, based on a '{{ book }}' Title</h2>
                     {% else %}
@@ -70,7 +70,7 @@
                 {% if data %}
                 <div class="row">
                   {% for i in data %}
-                  <div class="col-lg-3 col-md-4 col-sm-8">
+                  <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="card">
                                 <div class="card-body">
                                         <img class="card-img-top" src="{{ i['Image-URL-M']  }}" alt="Image not available">
@@ -86,29 +86,30 @@
               </div>
 
               <!-- Column with Book Info table -->
-              <div class="col-lg-4 col-md-12">
+               <div class="col-lg-4 col-md-12">
                 <!-- Book Info Header -->
                 {% if book %}
                   <h2 class="text-black-left">Details of a '{{ book }}' Title</h2>
-                {% endif %}  
-                
-      
-
-                {% if book %}
-                <table class="table">
+                 <table class="table">
                   <!-- table header-->
                   <thead>
                     <tr>
-                      <th>Author</th>
-                      <th>Publisher</th>
-                      <th>Average Rating</th>
+                      <th>Book Feature</th>
+                      <th>Details</th>
                     </tr>
                   </thead>
                   <tbody>
                     <!-- table rows-->
                     <tr>
+                      <td>Author</td>
                       <td>{{book_d['Book-Author']}}</td>
+                    </tr>
+                    <tr>
+                      <td>Publisher</td>
                       <td>{{book_d['Publisher']}}</td>
+                    </tr>
+                    <tr>
+                      <td>Average Rating</td>
                       <td>{{avg_r}}</td>
                     </tr>
                   </tbody>

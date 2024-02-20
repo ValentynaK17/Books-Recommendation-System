@@ -59,7 +59,7 @@ def recommend_book():
     book_title_list=[user_book]
     recommendations=recommendations[~recommendations.index.isin(book_title_list)].sort_values(by=user_book, ascending=False)
     # select top top_X_recommendations
-    top_recommendations=recommendations[:8].rename(columns={user_book:'similarity rate'})
+    top_recommendations=recommendations[:6].rename(columns={user_book:'similarity rate'})
     top_recommendations=top_recommendations.rename_axis('Book-Title', axis='index')
     recommendations_full_info=pd.merge(top_recommendations, books_df, left_on='Book-Title',right_on='Book-Title', how='left')
     dict_years=dict(recommendations_full_info.groupby('Book-Title')['Year-Of-Publication'].max())
@@ -120,7 +120,6 @@ def recommend_user():
     recommendations_full_info=recommendations_full_info.drop_duplicates(subset=['Book-Title'])
     data = recommendations_full_info.to_dict('records')
      # find original user ratings
-    print(ratings_df_all_cols.columns)
     u_data=ratings_df_all_cols[ratings_df_all_cols['User-ID']==user_id].sort_values(by='Book-Rating', ascending=False)
     u_data=u_data[['Book-Title','Book-Rating','Book-Author','Publisher']]
     if u_data.shape[0]>10:

@@ -95,10 +95,13 @@ input[type="submit"].btn {
   margin: 0 auto 10px;
 }
 
-.card h2,
+.card h2 {
+  font-size: 18px;
+}
 .card h4 {
   margin-bottom: 5px;
   text-align: center;
+  font-size: 14px;
 }
 
 /* to ensure headers are aligned */
@@ -115,7 +118,7 @@ input[type="submit"].btn {
 .table {
   font-family: 'Arial', sans-serif;
   margin-left: 40px;
-  margin-right: 10px;
+  margin-right: 40px;
 }
 
 /* Table header */
